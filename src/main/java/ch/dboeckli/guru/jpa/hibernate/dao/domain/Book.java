@@ -11,12 +11,7 @@ import java.util.Objects;
 @NoArgsConstructor
 @Getter
 @Setter
-@NamedQuery(name = Book.FIND_ALL_QUERY, query = "FROM Book")
-@NamedQuery(name = Book.FIND_BY_TITLE_QUERY, query = "FROM Book book where book.title = :title")
 public class Book {
-
-    public static final String FIND_ALL_QUERY = "book_find_all";
-    public static final String FIND_BY_TITLE_QUERY = "book_find_by_title";
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
