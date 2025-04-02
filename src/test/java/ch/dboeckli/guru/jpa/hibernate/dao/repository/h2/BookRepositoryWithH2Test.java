@@ -59,6 +59,14 @@ class BookRepositoryWithH2Test {
     }
 
     @Test
+    void testFindBookByTitleWithQuery() {
+        Book book = bookRepository.findBookByTitleWithQuery("Clean Code");
+
+        assertNotNull(book);
+        assertEquals("Clean Code", book.getTitle());
+    }
+
+    @Test
     void testJpaTestSplice() {
         long countBefore = bookRepository.count();
 
