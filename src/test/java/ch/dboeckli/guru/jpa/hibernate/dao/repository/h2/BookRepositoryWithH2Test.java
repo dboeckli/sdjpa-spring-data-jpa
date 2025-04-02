@@ -6,8 +6,9 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.dao.EmptyResultDataAccessException;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 
 @DataJpaTest
 // we are using the h2 in compatible mode with mysql. to assure that it is not replaced with h2
@@ -16,6 +17,21 @@ class BookRepositoryWithH2Test {
 
     @Autowired
     BookRepository bookRepository;
+
+    @Test
+    void testEmptyResultException() {
+        assertThrows(EmptyResultDataAccessException.class, () -> bookRepository.readByTitle("foobar4"));
+    }
+
+    @Test
+    void testNullParam() {
+        assertNull(bookRepository.getByTitle(null));
+    }
+
+    @Test
+    void testNoException() {
+        assertNull(bookRepository.getByTitle("foo"));
+    }
 
     @Test
     void testJpaTestSplice() {
