@@ -35,7 +35,6 @@ class AuthorDaoImplTest {
         authorDao.deleteAuthorById(saved.getId());
 
         assertThrows(JpaObjectRetrievalFailureException.class, () -> authorDao.getById(saved.getId()));
-
     }
 
     @Test
