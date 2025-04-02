@@ -2,6 +2,7 @@ package ch.dboeckli.guru.jpa.hibernate.dao.repository.mysql;
 
 import ch.dboeckli.guru.jpa.hibernate.dao.domain.Book;
 import ch.dboeckli.guru.jpa.hibernate.dao.repository.BookRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
@@ -9,6 +10,8 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ActiveProfiles;
+
+import java.util.concurrent.atomic.AtomicInteger;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.junit.jupiter.api.Assertions.assertNull;
@@ -18,6 +21,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 @DirtiesContext
 @DataJpaTest
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)  // to assure that it is not replaced with h2
+@Slf4j
 class BookRepositoryWithMysqlIT {
 
     @Autowired
@@ -36,6 +40,16 @@ class BookRepositoryWithMysqlIT {
     @Test
     void testNoException() {
         assertNull(bookRepository.getByTitle("foo"));
+    }
+
+    @Test
+    void testStreamFindAllByTitleNotNull() {
+        AtomicInteger count = new AtomicInteger();
+        bookRepository.findAllByTitleNotNull().forEach(book -> {
+            log.info("Found book: {}", book);
+            count.incrementAndGet();
+        });
+        assertThat(count.get()).isGreaterThan(0);
     }
 
 
