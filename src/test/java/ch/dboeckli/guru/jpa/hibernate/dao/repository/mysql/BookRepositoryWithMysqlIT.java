@@ -11,11 +11,12 @@ import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ActiveProfiles;
 
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.Future;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
-import static org.junit.jupiter.api.Assertions.assertNull;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.*;
 
 @ActiveProfiles("test_mysql")
 @DirtiesContext
@@ -52,6 +53,13 @@ class BookRepositoryWithMysqlIT {
         assertThat(count.get()).isGreaterThan(0);
     }
 
+    @Test
+    void testQueryByTitleAsync() throws ExecutionException, InterruptedException {
+        Future<Book> booksFuture = bookRepository.queryByTitle("Clean Code");
+        Book book = booksFuture.get();
+
+        assertNotNull(book);
+    }
 
     @Test
     void testJpaTestSplice() {

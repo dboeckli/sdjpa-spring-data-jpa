@@ -9,6 +9,8 @@ import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabas
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.dao.EmptyResultDataAccessException;
 
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.Future;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import static org.assertj.core.api.AssertionsForInterfaceTypes.assertThat;
@@ -46,6 +48,14 @@ class BookRepositoryWithH2Test {
             count.incrementAndGet();
         });
         assertThat(count.get()).isGreaterThan(0);
+    }
+
+    @Test
+    void testQueryByTitleAsync() throws ExecutionException, InterruptedException {
+        Future<Book> booksFuture = bookRepository.queryByTitle("Clean Code");
+        Book book = booksFuture.get();
+
+        assertNotNull(book);
     }
 
     @Test
