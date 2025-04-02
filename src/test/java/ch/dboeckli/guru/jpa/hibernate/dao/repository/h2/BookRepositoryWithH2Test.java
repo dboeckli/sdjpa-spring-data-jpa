@@ -75,6 +75,22 @@ class BookRepositoryWithH2Test {
     }
 
     @Test
+    void testFindBookByTitleWithQueryNative() {
+        Book book = bookRepository.findBookByTitleWithNativeQuery("Clean Code");
+
+        assertNotNull(book);
+        assertEquals("Clean Code", book.getTitle());
+    }
+
+    @Test
+    void testJpaNamedTestQuery() {
+        Book book = bookRepository.jpaNamed("Clean Code");
+
+        assertNotNull(book);
+        assertEquals("Clean Code", book.getTitle());
+    }
+
+    @Test
     void testJpaTestSplice() {
         long countBefore = bookRepository.count();
 
