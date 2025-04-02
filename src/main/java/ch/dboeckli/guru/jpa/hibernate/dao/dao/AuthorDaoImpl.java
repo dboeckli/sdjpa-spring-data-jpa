@@ -2,6 +2,7 @@ package ch.dboeckli.guru.jpa.hibernate.dao.dao;
 
 import ch.dboeckli.guru.jpa.hibernate.dao.domain.Author;
 import ch.dboeckli.guru.jpa.hibernate.dao.repository.AuthorRepository;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
@@ -19,8 +20,8 @@ public class AuthorDaoImpl implements AuthorDao {
 
     @Override
     public Author findAuthorByName(String firstName, String lastName) {
-        // TODO: NOT IMPLEMENTED YET
-        return null;
+        return authorRepository.findAuthorByFirstNameAndLastName(firstName, lastName)
+            .orElseThrow(EntityNotFoundException::new);
     }
 
     @Override

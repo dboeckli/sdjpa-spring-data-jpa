@@ -3,8 +3,8 @@ package ch.dboeckli.guru.jpa.hibernate.dao.dao.mysql;
 import ch.dboeckli.guru.jpa.hibernate.dao.dao.AuthorDao;
 import ch.dboeckli.guru.jpa.hibernate.dao.dao.AuthorDaoImpl;
 import ch.dboeckli.guru.jpa.hibernate.dao.domain.Author;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.extern.slf4j.Slf4j;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
@@ -36,9 +36,7 @@ class AuthorDaoImplIT {
 
         authorDao.deleteAuthorById(saved.getId());
 
-        assertThrows(JpaObjectRetrievalFailureException.class, () -> {
-            authorDao.getById(saved.getId());
-        });
+        assertThrows(JpaObjectRetrievalFailureException.class, () -> authorDao.getById(saved.getId()));
 
     }
 
@@ -67,20 +65,19 @@ class AuthorDaoImplIT {
     }
 
     @Test
-    @Disabled("not implemented yet")
     void testGetAuthorByName() {
-        // TODO: NOT IMPLEMENTED YET
         Author author = authorDao.findAuthorByName("Craig", "Walls");
-
         assertThat(author).isNotNull();
     }
 
     @Test
+    void testGetAuthorByNameNotFound() {
+        assertThrows(EntityNotFoundException.class, () -> authorDao.findAuthorByName("Gugus", "Hallo"));
+    }
+
+    @Test
     void testGetAuthor() {
-
         Author author = authorDao.getById(1L);
-
         assertThat(author).isNotNull();
-
     }
 }
