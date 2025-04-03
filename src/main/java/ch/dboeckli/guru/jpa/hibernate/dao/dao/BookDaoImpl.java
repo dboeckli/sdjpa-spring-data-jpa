@@ -4,8 +4,11 @@ import ch.dboeckli.guru.jpa.hibernate.dao.domain.Book;
 import ch.dboeckli.guru.jpa.hibernate.dao.repository.BookRepository;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 @Component
 @RequiredArgsConstructor
@@ -22,6 +25,29 @@ public class BookDaoImpl implements BookDao {
     public Book findBookByTitle(String title) {
         return bookRepository.findBookByTitle(title)
             .orElseThrow(EntityNotFoundException::new);
+    }
+
+    @Override
+    public List<Book> findAllBooks() {
+        // TODO: Implement pagination and tests
+        return List.of();
+    }
+
+    @Override
+    public List<Book> findAllBooks(int pageSize, int offset) {
+        // TODO: Implement pagination and tests
+        return List.of();
+    }
+
+    @Override
+    public List<Book> findAllBooks(Pageable pageable) {
+        // TODO: Implement pagination and tests
+        return List.of();
+    }
+
+    @Override
+    public List<Book> findAllBooksSortByTitle(Pageable pageable) {
+        return List.of();
     }
 
     @Override
