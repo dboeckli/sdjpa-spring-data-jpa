@@ -61,33 +61,39 @@ class BookRepositoryWithH2Test {
     @Test
     void testFindBookByTitleWithQuery() {
         Book book = bookRepository.findBookByTitleWithQuery("Clean Code");
-
-        assertNotNull(book);
-        assertEquals("Clean Code", book.getTitle());
+        assertAll(
+            () -> assertNotNull(book),
+            () -> assertEquals("Clean Code", book.getTitle())
+        );
     }
 
     @Test
     void testFindBookByTitleWithQueryNamed() {
         Book book = bookRepository.findBookByTitleWithQueryNamed("Clean Code");
-
-        assertNotNull(book);
-        assertEquals("Clean Code", book.getTitle());
+        assertAll(
+            () -> assertNotNull(book),
+            () -> assertEquals("Clean Code", book.getTitle())
+        );
     }
 
     @Test
     void testFindBookByTitleWithQueryNative() {
         Book book = bookRepository.findBookByTitleWithNativeQuery("Clean Code");
 
-        assertNotNull(book);
-        assertEquals("Clean Code", book.getTitle());
+        assertAll(
+            () -> assertNotNull(book),
+            () -> assertEquals("Clean Code", book.getTitle())
+        );
     }
 
     @Test
     void testJpaNamedTestQuery() {
         Book book = bookRepository.jpaNamed("Clean Code");
 
-        assertNotNull(book);
-        assertEquals("Clean Code", book.getTitle());
+        assertAll(
+            () -> assertNotNull(book),
+            () -> assertEquals("Clean Code", book.getTitle())
+        );
     }
 
     @Test
@@ -98,8 +104,10 @@ class BookRepositoryWithH2Test {
 
         long countAfter = bookRepository.count();
 
-        assertEquals(5, countBefore);
-        assertEquals(6, countAfter);
+        assertAll(
+            () -> assertEquals(25, countBefore, "Count before adding new book should be 5"),
+            () -> assertEquals(26, countAfter, "Count after adding new book should be 6")
+        );
     }
 
 }
