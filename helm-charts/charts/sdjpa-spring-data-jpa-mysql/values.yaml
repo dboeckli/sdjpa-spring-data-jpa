@@ -6,12 +6,12 @@ mysql:
   targetPort: 3306
   nodePort: 30306
   
-  database: "wordpressdb"
+  database: "bookdb"
 
-  adminUser: wpadmin
+  adminUser: bookadmin
   adminPassword: password
 
-  user: wpuser
+  user: bookuser
   password: password
 
   rootPassword: password
