@@ -7,12 +7,12 @@ import jakarta.persistence.EntityNotFoundException;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.boot.data.jpa.test.autoconfigure.DataJpaTest;
+import org.springframework.boot.jdbc.test.autoconfigure.AutoConfigureTestDatabase;
 import org.springframework.context.annotation.Import;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
-import org.springframework.orm.jpa.JpaObjectRetrievalFailureException;
+import org.springframework.orm.ObjectRetrievalFailureException;
 
 import java.util.List;
 
@@ -20,7 +20,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-@Import({ AuthorDaoImpl.class })
+@Import({AuthorDaoImpl.class})
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 @DataJpaTest
 @Slf4j
@@ -39,7 +39,7 @@ class AuthorDaoImplTest {
 
         authorDao.deleteAuthorById(saved.getId());
 
-        assertThrows(JpaObjectRetrievalFailureException.class, () -> authorDao.getById(saved.getId()));
+        assertThrows(ObjectRetrievalFailureException.class, () -> authorDao.getById(saved.getId()));
     }
 
     @Test
