@@ -21,7 +21,11 @@ import static org.junit.jupiter.api.Assertions.*;
 @ActiveProfiles("test_mysql")
 @DirtiesContext
 @DataJpaTest
-@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)  // to assure that it is not replaced with h2
+@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE) // to assure
+                                                                             // that it is
+                                                                             // not
+                                                                             // replaced
+                                                                             // with h2
 @Slf4j
 class BookRepositoryWithMysqlIT {
 

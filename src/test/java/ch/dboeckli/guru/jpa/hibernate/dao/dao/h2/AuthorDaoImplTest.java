@@ -20,7 +20,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-@Import({AuthorDaoImpl.class})
+@Import({ AuthorDaoImpl.class })
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 @DataJpaTest
 @Slf4j
@@ -87,61 +87,48 @@ class AuthorDaoImplTest {
     void findAllAuthorsByLastName() {
         List<Author> authors = authorDao.findAllAuthorsByLastName("Smith", PageRequest.of(0, 10));
 
-        assertAll(
-            () -> assertThat(authors).isNotNull(),
-            () -> {
-                assert authors != null;
-                assertThat(authors.size()).isEqualTo(10);
-            }
-        );
+        assertAll(() -> assertThat(authors).isNotNull(), () -> {
+            assert authors != null;
+            assertThat(authors.size()).isEqualTo(10);
+        });
     }
 
     @Test
     void findAllAuthorsByLastNameSortLastNameDesc() {
         List<Author> authors = authorDao.findAllAuthorsByLastName("Smith",
-            PageRequest.of(0, 10, Sort.by(Sort.Order.desc("firstName"))));
+                PageRequest.of(0, 10, Sort.by(Sort.Order.desc("firstName"))));
 
-        assertAll(
-            () -> assertThat(authors).isNotNull(),
-            () -> {
-                assert authors != null;
-                assertThat(authors.size()).isEqualTo(10);
-            },
-            () -> {
-                assert authors != null;
-                assertThat(authors.getFirst().getFirstName()).isEqualTo("Yugal");
-            }
-        );
+        assertAll(() -> assertThat(authors).isNotNull(), () -> {
+            assert authors != null;
+            assertThat(authors.size()).isEqualTo(10);
+        }, () -> {
+            assert authors != null;
+            assertThat(authors.getFirst().getFirstName()).isEqualTo("Yugal");
+        });
     }
 
     @Test
     void findAllAuthorsByLastNameSortLastNameAsc() {
         List<Author> authors = authorDao.findAllAuthorsByLastName("Smith",
-            PageRequest.of(0, 10, Sort.by(Sort.Order.asc("firstName"))));
+                PageRequest.of(0, 10, Sort.by(Sort.Order.asc("firstName"))));
 
-        assertAll(
-            () -> assertThat(authors).isNotNull(),
-            () -> {
-                assert authors != null;
-                assertThat(authors.size()).isEqualTo(10);
-            },
-            () -> {
-                assert authors != null;
-                assertThat(authors.getFirst().getFirstName()).isEqualTo("Ahmed");
-            }
-        );
+        assertAll(() -> assertThat(authors).isNotNull(), () -> {
+            assert authors != null;
+            assertThat(authors.size()).isEqualTo(10);
+        }, () -> {
+            assert authors != null;
+            assertThat(authors.getFirst().getFirstName()).isEqualTo("Ahmed");
+        });
     }
 
     @Test
     void findAllAuthorsByLastNameAllRecs() {
         List<Author> authors = authorDao.findAllAuthorsByLastName("Smith", PageRequest.of(0, 100));
 
-        assertAll(
-            () -> assertThat(authors).isNotNull(),
-            () -> {
-                assert authors != null;
-                assertThat(authors.size()).isEqualTo(40);
-            }
-        );
+        assertAll(() -> assertThat(authors).isNotNull(), () -> {
+            assert authors != null;
+            assertThat(authors.size()).isEqualTo(40);
+        });
     }
+
 }

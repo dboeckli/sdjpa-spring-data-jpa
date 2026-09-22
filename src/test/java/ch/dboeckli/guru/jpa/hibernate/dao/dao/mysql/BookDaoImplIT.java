@@ -99,82 +99,58 @@ class BookDaoImplIT {
 
     @Test
     void findAllBooksPage1_SortByTitle() {
-        List<Book> books = bookDao.findAllBooksSortByTitle(PageRequest.of(0, 10,
-            Sort.by(Sort.Order.desc("title"))));
+        List<Book> books = bookDao.findAllBooksSortByTitle(PageRequest.of(0, 10, Sort.by(Sort.Order.desc("title"))));
 
-        assertAll(
-            () -> assertThat(books).isNotNull(),
-            () -> assertThat(books).hasSize(10)
-        );
+        assertAll(() -> assertThat(books).isNotNull(), () -> assertThat(books).hasSize(10));
     }
 
     @Test
     void findAllBooksPage1_pageable() {
         List<Book> books = bookDao.findAllBooks(PageRequest.of(0, 10));
 
-        assertAll(
-            () -> assertThat(books).isNotNull(),
-            () -> assertThat(books).hasSize(10)
-        );
+        assertAll(() -> assertThat(books).isNotNull(), () -> assertThat(books).hasSize(10));
     }
 
     @Test
     void findAllBooksPage2_pageable() {
         List<Book> books = bookDao.findAllBooks(PageRequest.of(1, 10));
 
-        assertAll(
-            () -> assertThat(books).isNotNull(),
-            () -> assertThat(books).hasSize(10)
-        );
+        assertAll(() -> assertThat(books).isNotNull(), () -> assertThat(books).hasSize(10));
     }
 
     @Test
     void findAllBooksPage10_pageable() {
         List<Book> books = bookDao.findAllBooks(PageRequest.of(10, 10));
 
-        assertAll(
-            () -> assertThat(books).isNotNull(),
-            () -> assertThat(books).hasSize(0)
-        );
+        assertAll(() -> assertThat(books).isNotNull(), () -> assertThat(books).hasSize(0));
     }
 
     @Test
     void findAllBooksPage1() {
         List<Book> books = bookDao.findAllBooks(10, 0);
 
-        assertAll(
-            () -> assertThat(books).isNotNull(),
-            () -> assertThat(books).hasSize(10)
-        );
+        assertAll(() -> assertThat(books).isNotNull(), () -> assertThat(books).hasSize(10));
     }
 
     @Test
     void findAllBooksPage2() {
         List<Book> books = bookDao.findAllBooks(10, 10);
 
-        assertAll(
-            () -> assertThat(books).isNotNull(),
-            () -> assertThat(books).hasSize(10)
-        );
+        assertAll(() -> assertThat(books).isNotNull(), () -> assertThat(books).hasSize(10));
     }
 
     @Test
     void findAllBooksPage10() {
         List<Book> books = bookDao.findAllBooks(10, 100);
 
-        assertAll(
-            () -> assertThat(books).isNotNull(),
-            () -> assertThat(books).hasSize(0)
-        );
+        assertAll(() -> assertThat(books).isNotNull(), () -> assertThat(books).hasSize(0));
     }
 
     @Test
     void testFindAllBooks() {
         List<Book> books = bookDao.findAllBooks();
 
-        assertAll(
-            () -> assertThat(books).isNotNull(),
-            () -> assertThat(books).hasSizeGreaterThan(5)
-        );
+        assertAll(() -> assertThat(books).isNotNull(), () -> assertThat(books).hasSizeGreaterThan(5));
     }
+
 }

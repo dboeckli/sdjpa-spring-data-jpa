@@ -17,7 +17,8 @@ import static org.assertj.core.api.AssertionsForInterfaceTypes.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 
 @DataJpaTest
-// we are using the h2 in compatible mode with mysql. to assure that it is not replaced with h2
+// we are using the h2 in compatible mode with mysql. to assure that it is not replaced
+// with h2
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 @Slf4j
 class BookRepositoryWithH2Test {
@@ -61,39 +62,27 @@ class BookRepositoryWithH2Test {
     @Test
     void testFindBookByTitleWithQuery() {
         Book book = bookRepository.findBookByTitleWithQuery("Clean Code");
-        assertAll(
-            () -> assertNotNull(book),
-            () -> assertEquals("Clean Code", book.getTitle())
-        );
+        assertAll(() -> assertNotNull(book), () -> assertEquals("Clean Code", book.getTitle()));
     }
 
     @Test
     void testFindBookByTitleWithQueryNamed() {
         Book book = bookRepository.findBookByTitleWithQueryNamed("Clean Code");
-        assertAll(
-            () -> assertNotNull(book),
-            () -> assertEquals("Clean Code", book.getTitle())
-        );
+        assertAll(() -> assertNotNull(book), () -> assertEquals("Clean Code", book.getTitle()));
     }
 
     @Test
     void testFindBookByTitleWithQueryNative() {
         Book book = bookRepository.findBookByTitleWithNativeQuery("Clean Code");
 
-        assertAll(
-            () -> assertNotNull(book),
-            () -> assertEquals("Clean Code", book.getTitle())
-        );
+        assertAll(() -> assertNotNull(book), () -> assertEquals("Clean Code", book.getTitle()));
     }
 
     @Test
     void testJpaNamedTestQuery() {
         Book book = bookRepository.jpaNamed("Clean Code");
 
-        assertAll(
-            () -> assertNotNull(book),
-            () -> assertEquals("Clean Code", book.getTitle())
-        );
+        assertAll(() -> assertNotNull(book), () -> assertEquals("Clean Code", book.getTitle()));
     }
 
     @Test
@@ -104,10 +93,8 @@ class BookRepositoryWithH2Test {
 
         long countAfter = bookRepository.count();
 
-        assertAll(
-            () -> assertEquals(25, countBefore, "Count before adding new book should be 5"),
-            () -> assertEquals(26, countAfter, "Count after adding new book should be 6")
-        );
+        assertAll(() -> assertEquals(25, countBefore, "Count before adding new book should be 5"),
+                () -> assertEquals(26, countAfter, "Count after adding new book should be 6"));
     }
 
 }
