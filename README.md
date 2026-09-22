@@ -1,18 +1,78 @@
-# Spring Data JPA - Spring Data JPA
+# Spring Data JPA and Hibernate: Beginner to Guru
 
-This repository contains source code examples to support my course Spring Data JPA and Hibernate Beginner to Guru
+Source code for the course *Spring Data JPA and Hibernate: Beginner to Guru*. A Spring Boot 4 demo project on
+Java 25 that demonstrates the classic DAO pattern (with `EntityManager`) side by side with Spring Data JPA
+repositories for the `Author`/`Book` domain - against H2 (MySQL-compat mode) and MySQL, with schema management
+via Flyway and a Helm-based Docker/Kubernetes build & deploy setup.
+
+## Architecture Overview
+
+```mermaid
+graph LR
+    Client(["💻 Client"])
+
+    subgraph App ["Spring Boot App :8080"]
+        Dao["DAO Pattern\n(AuthorDaoImpl / BookDaoImpl\nEntityManager)"]
+        Repos["Spring Data JPA\nRepositories"]
+    end
+
+    subgraph Domain ["Domain Model"]
+        Model["Author / Book\n@GeneratedValue IDENTITY"]
+    end
+
+    subgraph Migration ["Schema Management"]
+        Flyway["Flyway\ndb/migration"]
+        H2Schema["h2-schema.sql\nh2-data.sql"]
+    end
+
+    subgraph Databases ["Databases"]
+        H2[("H2\nIn-Memory")]
+        MySQL[("MySQL\nDocker")]
+    end
+
+    Client -->|"actuator :8080"| App
+    Dao --> Model
+    Repos --> Model
+    Dao <--> H2
+    Dao <--> MySQL
+    Repos <--> H2
+    Repos <--> MySQL
+    Flyway --> MySQL
+    H2Schema --> H2
+```
+
+## Database Schema
+
+```mermaid
+erDiagram
+    author {
+        BIGINT       id PK "auto_increment"
+        VARCHAR(255) first_name
+        VARCHAR(255) last_name
+    }
+
+    book {
+        BIGINT       id PK "auto_increment"
+        VARCHAR(255) title
+        VARCHAR(255) isbn
+        VARCHAR(255) publisher
+        BIGINT       author_id FK
+    }
+
+    author ||--o{ book : "author_id"
+```
 
 ## Flyway
 
-To enable Flyway in the MySQL profile, override the following properties when starting the application:
-- `spring.flyway.enabled = true`
-- `spring.docker.compose.file = compose-mysql.yaml`
-
-This profile starts MySQL on port 3306 using the Docker Compose file `compose-mysql-.yaml`.
+Flyway is enabled by default in the `mysql` profile (`application-mysql.yaml`). The profile starts MySQL on
+port `3306` via the Docker Compose file `compose-mysql.yaml` and applies the schema migrations from
+`src/main/resources/db/migration`. The `h2` profile runs against in-memory H2 (MySQL-compat mode) with
+`h2-schema.sql`/`h2-data.sql` and Flyway disabled.
 
 ## Docker
 
-Docker Compose file initially use the startup script located in `src/scripts`. These scripts create the database and users.
+The Docker Compose file mounts `src/scripts/init-mysql.sql` into `/docker-entrypoint-initdb.d/`. On the first
+startup this script creates the database `bookdb` and the users `bookadmin` and `bookuser`.
 
 ### Deployment with Helm
 
@@ -50,7 +110,7 @@ replace $POD with pods from the command above
 kubectl logs $POD -n sdjpa-spring-data-jpa --all-containers
 ```
 
-Show Endpoints
+Show endpoints
 
 ```powershell
 kubectl get endpoints -n sdjpa-spring-data-jpa
@@ -86,7 +146,7 @@ create busybox sidecar
 kubectl run busybox-test --rm -it --image=busybox:1.36 --namespace=sdjpa-spring-data-jpa --command -- sh
 ```
 
-You can use the actuator rest call to verify via port 30080
+You can use the actuator health endpoint to verify the app via port 30080: `http://localhost:30080/actuator/health`
 
 ## Running the Application
 
@@ -103,7 +163,7 @@ provides MySQL.
 Allow the kit source (GitHub without cloning):
 
 ```powershell
-sbx settings set kit.allowedSources --% "[\"docker.io/\",\"github.com/dboeckli/\"]
+sbx settings set kit.allowedSources --% "[\"docker.io/\",\"github.com/dboeckli/\"]"
 ```
 
 Start a new sandbox:
