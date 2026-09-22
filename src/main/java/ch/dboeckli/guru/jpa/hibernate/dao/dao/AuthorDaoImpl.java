@@ -50,4 +50,5 @@ public class AuthorDaoImpl implements AuthorDao {
     public void deleteAuthorById(Long id) {
         authorRepository.deleteById(id);
     }
+
 }

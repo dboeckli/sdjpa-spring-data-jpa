@@ -25,8 +25,7 @@ public class BookDaoImpl implements BookDao {
 
     @Override
     public Book findBookByTitle(String title) {
-        return bookRepository.findBookByTitle(title)
-            .orElseThrow(EntityNotFoundException::new);
+        return bookRepository.findBookByTitle(title).orElseThrow(EntityNotFoundException::new);
     }
 
     @Override
@@ -34,14 +33,14 @@ public class BookDaoImpl implements BookDao {
         return bookRepository.findAll();
     }
 
-
     @Override
     public List<Book> findAllBooks(int pageSize, int offset) {
         Pageable pageable = PageRequest.ofSize(pageSize);
 
         if (offset > 0) {
             pageable = pageable.withPage(offset / pageSize);
-        } else {
+        }
+        else {
             pageable = pageable.withPage(0);
         }
 
@@ -79,4 +78,5 @@ public class BookDaoImpl implements BookDao {
     public void deleteBookById(Long id) {
         bookRepository.deleteById(id);
     }
+
 }
