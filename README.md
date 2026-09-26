@@ -171,7 +171,7 @@ Start a new sandbox:
 ```powershell
 sbx run opencode `
     --kit "git+https://github.com/dboeckli/opencode-sandbox-kit.git#dir=opencode-agent" `
-    --template docker/sandbox-templates:opencode-docker-0.5.0 `
+    --template docker.io/domboeckli/sbx-opencode-tooling:latest `
     --skills=off `
     --static-mcp idea `
     . `
@@ -183,7 +183,7 @@ Start the sandbox with Kubernetes support:
 ```powershell
 sbx run opencode `
     --kit "git+https://github.com/dboeckli/opencode-sandbox-kit.git#dir=opencode-agent" `
-    --template docker/sandbox-templates:opencode-docker-0.5.0 `
+    --template docker.io/domboeckli/sbx-opencode-tooling:latest `
     --skills=off `
     --static-mcp idea `
     . `
@@ -196,7 +196,7 @@ Claude Code (Home) and Mammouth Code variants:
 ```powershell
 sbx run claude `
     --kit "git+https://github.com/dboeckli/opencode-sandbox-kit.git#dir=opencode-agent" `
-    --template docker/sandbox-templates:claude-code-docker-0.5.0 `
+    --template docker.io/domboeckli/sbx-claude-tooling:latest `
     --skills=off `
     --static-mcp idea `
     . `
@@ -205,6 +205,7 @@ sbx run claude `
 
 ```powershell
 sbx run "git+https://github.com/dboeckli/opencode-sandbox-kit.git#dir=mammouth-agent" `
+    --kit-arg imageTag=latest `
     --skills=off `
     --static-mcp idea `
     . `
