@@ -57,8 +57,8 @@ is needed here. On a normal host (Windows/CI) this does not apply either.
 - `dao/` classic DAO pattern (`AuthorDao`/`BookDao` interfaces, `*DaoImpl` with `EntityManager`);
   `domain/` JPA entities (`Author`, `Book`); `repository/` Spring Data JPA repositories.
 - Schema migrations: `src/main/resources/db/migration` (Flyway only).
-- `log/` (`LogMessage`, `ConfigChangeListener`) + `config/RequestLoggingConfig` for contextual
-  logging/request tracing.
+- `config/RequestLoggingConfig`/`RequestLoggingFilter` for request logging (segment-exact
+  `appconfig.request-logging.exclude-paths`, switchable via `appconfig.request-logging.enabled`).
 
 ## Deploy / CI
 
